@@ -1,1 +1,1 @@
-module.exports = ['Electronics', 'Computers', 'Home', 'Pets', 'Fashion']
+module.exports = ['Padel']

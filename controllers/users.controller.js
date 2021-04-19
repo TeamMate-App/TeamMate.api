@@ -86,7 +86,7 @@ module.exports.authenticate = (req, res, next) => {
               { id: user._id },
               process.env.JWT_SECRET || "changeme",
               {
-                expiresIn: "10s",
+                expiresIn: "20s",
               }
             ),
           });
