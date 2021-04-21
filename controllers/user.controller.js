@@ -51,20 +51,16 @@ module.exports.get = (req, res, next) => {
 
 //delete
 module.exports.delete = (req, res, next) => {
-  console.log("current",currentUser)
+  console.log("current",req.currentUser)
   console.log(req.body);
-  const currentUserId = req.currentUser._id
-  User.findByIdAndRemove(currentUserId)
-    .then(user => {
-      if (!user) {
-        next(console.log( 'User not found'));
-      } else {
-        res.redirect('/');
-      }
-    })
-    .catch(error => next(error));
-  };
-  
+  console.log(req.body.id);
+
+  User.findByIdAndDelete(req.body.id)
+  .then(() => {
+    res.status(204).json({})
+  })
+  .catch((err) => next(err))
+}
   /* res
     .status(200)
     .send({ message: "Todo bien todo correcto y yo que me alegro" }); */
