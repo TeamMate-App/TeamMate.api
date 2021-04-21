@@ -2,11 +2,10 @@ const createError = require("http-errors");
 const User = require("../models/User.model");
 const jwt = require("jsonwebtoken");
 
-//=======================CREATE
-
-module.exports.create = (req, res, next) => {
+//Register
+module.exports.register = (req, res, next) => {
   User.findOne({ email: req.body.email })
-    .then((user) => {
+    .then(async (user) => {
       if (user) {
         // Error if email is already in the database
         next(
@@ -16,54 +15,19 @@ module.exports.create = (req, res, next) => {
         );
       } else {
         // User creation
-        return User.create(req.body).then((user) => res.status(201).json(user));
+        const user_1 = await User.create(req.body);
+        return res.status(201).json(user_1);
       }
     })
     .catch(next);
 };
-//===========
 
-//=======================PRUEBA
-
-module.exports.getAllfromDB = (req, res, next) => {
-  User.find()
-    .then((users) => {
-      if (!users) {
-        next(createError(404, "Users not found"));
-      } else {
-        console.log(users);
-
-        res.status(200).send({ users });
-      }
-    })
-    .catch(next);
-};
-//===========
-
-//=======================Get con el usuario que está en sesion (currentUser)
-
-module.exports.get = (req, res, next) => {
-  console.log("he llegao al ppio");
-
-  User.findById(req.currentUser).then((user) => {
-    if (!user) {
-      console.log("he llegao");
-      next(createError(404, "User not found"));
-    } else {
-      res.json(user);
-    }
-  });
-};
-//===========
-
-//=======================JWT-LOGIN
-
+//JsonWebToken Login
 module.exports.authenticate = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findOne({ email }).then((user) => {
     if (!user) {
-      console.log("NO HAY USER");
       // Error if no user
       next(
         createError(404, {
@@ -86,7 +50,7 @@ module.exports.authenticate = (req, res, next) => {
               { id: user._id },
               process.env.JWT_SECRET || "changeme",
               {
-                expiresIn: "20s",
+                expiresIn: "1d",
               }
             ),
           });
@@ -95,5 +59,3 @@ module.exports.authenticate = (req, res, next) => {
     }
   });
 };
-
-//=======================

@@ -24,7 +24,7 @@ const sportSchema = mongoose.Schema (
             type: mongoose.Schema.Types.ObjectId,
             ref:'Comment'
         }],
-        
+       
     }
 );
 

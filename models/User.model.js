@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema(
     },
     name: {
       type: String,
-      required: "Name is required",
+     
     },
     image: {
       type: String,
@@ -39,7 +39,7 @@ const userSchema = mongoose.Schema(
     },
     address: {
       type: String,
-      required: "Address is required",
+    
     },
   },
   {
