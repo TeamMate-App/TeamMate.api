@@ -1,18 +1,22 @@
 const mongoose = require('mongoose');
+require("./User.model");
+require("./Court.model");
 
-const commentSchema = new mongoose.Schema({
+const commentSchema = mongoose.Schema({
+
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        ref: 'User',
     },
     court: {
-        type: mongoose.Schema.Types.ObjectsId,
-        ref: 'Court'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Court',
     },
     message: {
         type: String,
-        required:true,
+        required: true,
     },
+
 });
 
 const Comment = mongoose.model('Comment', commentSchema);
