@@ -3,6 +3,7 @@ const faker = require("faker");
 
 const User = require("../models/User.model");
 const Courts = require("../models/Courts.model");
+const Event = require("../models/Event.model")
 
 const categories = require("../constants/categories");
 
@@ -35,6 +36,7 @@ mongoose.connection.once("open", () => {
       console.log(`${users.length} users created`);
       console.log(`${users} users info`);
 
+      //Create Courts
       const courts = [];
 
       for (let index = 0; index < 10; index++) {
@@ -45,11 +47,9 @@ mongoose.connection.once("open", () => {
           description: faker.commerce.productDescription(),
           price: faker.commerce.price(),
           /* categories:[categories[Math.floor(Math.random() * categories.length)]], */
-         /*  place:[place[Math.floor(Math.random() * place.length)]], */
-         /*  Surface:[Surface[Math.floor(Math.random() * Surface.length)]],
+          /*  place:[place[Math.floor(Math.random() * place.length)]], */
+          /*  Surface:[Surface[Math.floor(Math.random() * Surface.length)]],
           Wall:[Wall[Math.floor(Math.random() * Wall.length)]], */
-
-
         });
       }
       return Courts.create(courts);
@@ -57,6 +57,12 @@ mongoose.connection.once("open", () => {
     .then((courts) => {
       console.log(`${courts.length} courts created`);
     })
+
+    //Create Events
+    const events = []
+
+    for(let i = 0; i < 10; i++) 
+
     .then(() => console.info(`- All data created!`))
     .catch((error) => console.error(error))
     .finally(() => process.exit(0));

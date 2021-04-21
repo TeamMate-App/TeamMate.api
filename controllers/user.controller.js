@@ -4,16 +4,14 @@ const User = require("../models/User.model");
 //edit
 module.exports.editProfile = (req, res, next) => {
   console.log("req.body", req.body);
-  console.log("req.body", req.body.id);
 
   console.log("user", req.currentUser);
 
-  User.findByIdAndUpdate(req.body.id, req.body, {
-    safe: true,
-    upsert: true,
+  User.findOneAndUpdate({_id: req.currentUser}, req.body, {
     new: true,
   })
     .then((user) => {
+      console.log(user)
       if (!user) {
         next(createError(404, "User not found"));
       } else {
@@ -23,7 +21,27 @@ module.exports.editProfile = (req, res, next) => {
     .catch((error) => next(error));
 };
 
-//all users
+//Register
+module.exports.register = (req, res, next) => {
+  User.findOne({ email: req.body.email })
+    .then(async (user) => {
+      if (user) {
+        // Error if email is already in the database
+        next(
+          createError(400, {
+            errors: { email: "This email is already in use" },
+          })
+        );
+      } else {
+        // User creation
+        const user_1 = await User.create(req.body);
+        return res.status(201).json(user_1);
+      }
+    })
+    .catch(next);
+};
+
+//get all users
 module.exports.getAllfromDB = (req, res, next) => {
   User.find()
     .then((users) => {
@@ -38,7 +56,7 @@ module.exports.getAllfromDB = (req, res, next) => {
     .catch(next);
 };
 
-//get user
+//get current user
 module.exports.get = (req, res, next) => {
   User.findById(req.currentUser).then((user) => {
     if (!user) {
@@ -51,11 +69,11 @@ module.exports.get = (req, res, next) => {
 
 //delete
 module.exports.delete = (req, res, next) => {
-  console.log("current",req.currentUser)
+  console.log(req.currentUser)
   console.log(req.body);
   console.log(req.body.id);
 
-  User.findByIdAndDelete(req.body.id)
+  User.findByIdAndDelete(req.currentUser)
   .then(() => {
     res.status(204).json({})
   })
