@@ -2,25 +2,7 @@ const createError = require("http-errors");
 const User = require("../models/User.model");
 const jwt = require("jsonwebtoken");
 
-//Register
-module.exports.register = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-    .then(async (user) => {
-      if (user) {
-        // Error if email is already in the database
-        next(
-          createError(400, {
-            errors: { email: "This email is already in use" },
-          })
-        );
-      } else {
-        // User creation
-        const user_1 = await User.create(req.body);
-        return res.status(201).json(user_1);
-      }
-    })
-    .catch(next);
-};
+
 
 //JsonWebToken Login
 module.exports.authenticate = (req, res, next) => {
