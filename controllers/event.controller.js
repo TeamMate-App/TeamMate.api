@@ -7,14 +7,12 @@ module.exports.create = (req, res, next) => {
   Event.findOne({ event: req.body })
     .then(async (event) => {
       if (event) {
-        // Error if email is already in the database
         next(
           createError(400, {
             errors: { event: "This event has been created" },
           })
         );
       } else {
-        // event creation
         const event_1 = await Event.create(req.body);
         return res.status(201).json(event_1);
       }
@@ -66,12 +64,8 @@ module.exports.edit = (req, res, next) => {
 
 //delete
 module.exports.delete = (req, res, next) => {
-  console.log("BODY:", req.body);
-  console.log("ID:", req.body.id);
-
   Event.findByIdAndDelete({ _id: req.body.id })
     .then(() => {
-      console.log(req.body.id)
       res.status(204).json({});
     })
     .catch((err) => next(err));
