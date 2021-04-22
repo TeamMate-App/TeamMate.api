@@ -13,10 +13,10 @@ router.post("/create", eventController.create);
 /* router.get("/get", eventController.get); */
 
 //edit event
-router.put("/edit/event", /* authMiddleware.isAuthenticated, */ eventController.editEvent);
+router.put("/edit", /* authMiddleware.isAuthenticated, */ eventController.edit);
 
-/* //delete
-router.post("/deleteEvent", authMiddleware.isAuthenticated, userController.deleteEvent) */
+//delete
+router.post("/delete", /* authMiddleware.isAuthenticated, */ eventController.delete)
 
 
 module.exports = router;
