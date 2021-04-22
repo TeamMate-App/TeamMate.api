@@ -5,9 +5,12 @@ const User = require("../models/User.model");
 const Courts = require("../models/Courts.model");
 const Event = require("../models/Event.model")
 
-const categories = require("../constants/categories");
+const sports = require("../constants/sports")
+
 
 require("../config/db.config");
+
+let usersCreated = []
 
 mongoose.connection.once("open", () => {
   console.info(
@@ -35,6 +38,7 @@ mongoose.connection.once("open", () => {
     .then((users) => {
       console.log(`${users.length} users created`);
       console.log(`${users} users info`);
+      usersCreated = users
 
       //Create Courts
       const courts = [];
@@ -56,12 +60,28 @@ mongoose.connection.once("open", () => {
     })
     .then((courts) => {
       console.log(`${courts.length} courts created`);
+      
+      //Create Events
+      const events = []
+      
+      for(let i = 0; i < 10; i++) {
+        events.push({
+          name: faker.name.findName(),
+          description: faker.commerce.productDescription(),
+          address: faker.address.streetName(),
+          image: faker.image.sports(),
+          user: usersCreated[0].id,
+          sports: sports[Math.floor(Math.random() * sports.length)],
+          date: new Date,
+          
+         
+        })
+      }
+      return Event.create(events)
     })
-
-    //Create Events
-    const events = []
-
-    for(let i = 0; i < 10; i++) 
+    .then(events => {
+      console.log(`${events.length} eventos creados`)
+    })
 
     .then(() => console.info(`- All data created!`))
     .catch((error) => console.error(error))
