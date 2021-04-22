@@ -23,7 +23,6 @@ const EventSchema = mongoose.Schema(
     },
     date: {
       type: Date,
-      required: true,
     },
     image: {
       type: String,
