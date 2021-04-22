@@ -1,48 +1,60 @@
-const createError = require("http-errros");
+const createError = require("http-errors");
 const Event = require("../models/Event.model");
+
+//Create
+module.exports.create = (req, res, next) => {
+  console.log("HE LLEGAO")
+  console.log(req.body)
+  Event.findOne({ "event": req.body })
+    .then(async (event) => {
+      console.log("he llegao dentro1")
+      if (event) {
+        // Error if email is already in the database
+        next(
+          createError(400, {
+            errors: { event: "This event has been created" },
+          })
+        );
+      } else {
+        console.log("he llegao dentro2")
+        // event creation
+        const event_1 = await Event.create(req.body);
+        return res.status(201).json(event_1);
+      }
+    })
+    .catch(next);
+};
 
 //edit
 module.exports.editEvent = (req, res, next) => {
-    console.log("req.body", req.body);
+   /*  console.log("req.body", req.body); */
+   console.log("req.params",req.params)
+   console.log("req.paramsId",req.params.id)
+   console.log("req.body",req.body)
+   console.log("req.bodyId",req.body.id)
+
+
+
   
-    console.log("event", req.currentevent);
-  
-    Event.findOneAndUpdate({_id: req.currentevent}, req.body, {
+    
+    Event.findOneAndUpdate( req.body.id, {
       new: true,
     })
       .then((event) => {
-        console.log(event)
         if (!event) {
           next(createError(404, "event not found"));
         } else {
           return event.save(event).then((event) => res.json({ event }));
         }
+        console.log("info que hay en el evento", event)
       })
       .catch((error) => next(error));
   };
   
-  //Register
-  module.exports.register = (req, res, next) => {
-    Event.findOne({ email: req.body.email })
-      .then(async (event) => {
-        if (event) {
-          // Error if email is already in the database
-          next(
-            createError(400, {
-              errors: { email: "This email is already in use" },
-            })
-          );
-        } else {
-          // event creation
-          const event_1 = await event.create(req.body);
-          return res.status(201).json(event_1);
-        }
-      })
-      .catch(next);
-  };
   
   //get all events
   module.exports.getAllfromDB = (req, res, next) => {
+    console.log("he llegao")
     Event.find()
       .then((events) => {
         if (!events) {
@@ -58,7 +70,10 @@ module.exports.editEvent = (req, res, next) => {
   
   //get current event
   module.exports.get = (req, res, next) => {
-    Event.findById(req.currentevent).then((event) => {
+    console.log("req params", req);
+    console.log("he llegao")
+    console.log("id")
+    Event.findById(req.body.id).then((event) => {
       if (!event) {
         next(createError(404, "event not found"));
       } else {
