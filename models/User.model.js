@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const Review = require("./Review.model");
+const Review = require("./modelos que no usamos/Review.model");
+const Event = require("./Event.model");
 
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const SALT_WORK_FACTOR = 10;
@@ -20,7 +21,6 @@ const userSchema = mongoose.Schema(
     },
     name: {
       type: String,
-     
     },
     image: {
       type: String,
@@ -39,7 +39,6 @@ const userSchema = mongoose.Schema(
     },
     address: {
       type: String,
-    
     },
   },
   {
@@ -72,8 +71,8 @@ userSchema.methods.checkPassword = function (passwordToCheck) {
   return bcrypt.compare(passwordToCheck, this.password);
 };
 
-userSchema.virtual("reviews", {
-  ref: Review.modelName,
+userSchema.virtual("events", {
+  ref: Event.modelName,
   localField: "_id",
   foreignField: "user",
 });

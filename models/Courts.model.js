@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const categories = require("../constants/categories");
+const categories = require("../constants/sports");
 const User = require("./User.model");
 
 require("./User.model");
-require("./Review.model");
+require("./modelos que no usamos/Review.model");
 
 const courtSchema = mongoose.Schema(
   {

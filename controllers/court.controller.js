@@ -1,5 +1,5 @@
 const createError = require("http-errors");
-const Court = require("../models/Court.model");
+const Court = require("../models/Courts.model");
 
 //=======================PRUEBA
 

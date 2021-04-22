@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const average = require("../data/average")
+const average = require("../../data/average")
 
 
 const sportSchema = mongoose.Schema (
