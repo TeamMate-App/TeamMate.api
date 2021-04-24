@@ -50,7 +50,7 @@ module.exports.getAllfromDB = (req, res, next) => {
       } else {
         console.log(users);
 
-        res.status(200).send({ users });
+        res.status(200).json( users );
       }
     })
     .catch(next);
