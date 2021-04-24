@@ -27,7 +27,7 @@ module.exports.getAllfromDB = (req, res, next) => {
       if (!events) {
         next(createError(404, "events not found"));
       } else {
-        res.status(200).send({ events });
+        res.status(200).json( events );
       }
     })
     .catch(next);
@@ -56,7 +56,7 @@ module.exports.edit = (req, res, next) => {
       if (!event) {
         next(createError(404, "event not found"));
       } else {
-        return event.save(event).then((event) => res.json({ event }));
+        return event.save(event).then((event) => res.json( event ));
       }
     })
     .catch((error) => next(error));
