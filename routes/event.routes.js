@@ -5,10 +5,10 @@ const authMiddleware = require("../middlewares/auth.middleware")
 
 
 //all events
-router.get("/allevents", eventController.getAllfromDB);
+router.get("/", eventController.getAllfromDB);
 
 //create
-router.post("/create", eventController.create); 
+router.post("/", eventController.create); 
 
 /* router.get("/get", eventController.get); */
 
