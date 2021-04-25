@@ -4,13 +4,13 @@ const userController = require("../controllers/user.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 
 // all users
-// router.get("/me", userController.get);
+router.get("/me", userController.get);
 
 //all users
 router.get("/allusers", userController.getAllfromDB);
 
 //edit profile
-router.put("/edit", authMiddleware.isAuthenticated, userController.editProfile);
+router.put("/edit/", authMiddleware.isAuthenticated, userController.editProfile);
 
 //register
 router.post("/register", userController.register);

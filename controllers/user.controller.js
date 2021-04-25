@@ -3,10 +3,8 @@ const User = require("../models/User.model");
 
 //edit
 module.exports.editProfile = (req, res, next) => {
-  console.log("req.body", req.body);
-
-  console.log("user", req.currentUser);
-
+  // console.log("req.body", req.body);
+  // console.log("user", req.currentUser);
   User.findOneAndUpdate({_id: req.currentUser}, req.body, {
     new: true,
   })
