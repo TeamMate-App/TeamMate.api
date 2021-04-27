@@ -40,6 +40,23 @@ const userSchema = mongoose.Schema(
     address: {
       type: String,
     },
+
+    active: {
+      type: Boolean,
+      default: false,
+    },
+
+    activationToken: {
+      type: String,
+      default: () => {
+        return (
+          Math.random().toString(36).substring(2, 15) +
+          Math.random().toString(36).substring(2, 15) +
+          Math.random().toString(36).substring(2, 15) +
+          Math.random().toString(36).substring(2, 15)
+        );
+      },
+    },
   },
   {
     timestamps: true,
@@ -54,6 +71,8 @@ const userSchema = mongoose.Schema(
       },
     },
   }
+
+
 );
 
 userSchema.pre("save", function (next) {

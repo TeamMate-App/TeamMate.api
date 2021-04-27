@@ -1,11 +1,15 @@
 const createError = require("http-errors");
 const User = require("../models/User.model");
+const { sendActivationEmail } = require("../config/mailer.config")
 
 //edit
 module.exports.editProfile = (req, res, next) => {
   // console.log("req.body", req.body);
   // console.log("user", req.currentUser);
-  User.findOneAndUpdate({_id: req.currentUser}, req.body, {
+  User.findOneAndUpdate(
+    { activationToken: req.params.token, active: false },
+    { active: true, activationToken: "active" },
+    { _id: req.currentUser }, req.body, {
     new: true,
   })
     .then((user) => {
@@ -21,8 +25,10 @@ module.exports.editProfile = (req, res, next) => {
 
 //register
 module.exports.register = (req, res, next) => {
+  console.log("HE llegado")
+  console.log("HE llegado 2",req.body.email)
   User.findOne({ email: req.body.email })
-    .then(async (user) => {
+    .then((user) => {
       if (user) {
         // Error if email is already in the database
         next(
@@ -32,8 +38,13 @@ module.exports.register = (req, res, next) => {
         );
       } else {
         // User creation
-        const user_1 = await User.create(req.body);
-        return res.status(201).json(user_1);
+        const user_2 = User.create(req.body)
+          .then((u) => {
+            const user_1 = user_2
+            sendActivationEmail(u.email, u.activationToken);
+            return res.status(201).json(user_1)
+          }
+          )
       }
     })
     .catch(next);
@@ -48,7 +59,7 @@ module.exports.getAllfromDB = (req, res, next) => {
       } else {
         console.log(users);
 
-        res.status(200).json( users );
+        res.status(200).json(users);
       }
     })
     .catch(next);
@@ -72,11 +83,27 @@ module.exports.delete = (req, res, next) => {
   console.log(req.body.id);
 
   User.findByIdAndDelete(req.currentUser)
+    .then(() => {
+      res.status(204).json({})
+    })
+    .catch((err) => next(err))
+}
+//activation account
+
+module.exports.activate = (req, res, next) => {
+  User.findOneAndUpdate(
+    { activationToken: req.params.token, active: false },
+    { active: true, activationToken: "active" }
+  )
+
   .then(() => {
     res.status(204).json({})
   })
   .catch((err) => next(err))
+    
+    
 }
-  /* res
-    .status(200)
-    .send({ message: "Todo bien todo correcto y yo que me alegro" }); */
+
+// /* res
+  // .status(200)
+  // .send({ message: "Todo bien todo correcto y yo que me alegro" }); */
