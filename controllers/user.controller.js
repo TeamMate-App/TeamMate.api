@@ -7,11 +7,11 @@ module.exports.editProfile = (req, res, next) => {
 
   console.log("user", req.currentUser);
 
-  User.findOneAndUpdate({_id: req.currentUser}, req.body, {
+  User.findOneAndUpdate({ _id: req.currentUser }, req.body, {
     new: true,
   })
     .then((user) => {
-      console.log(user)
+      console.log(user);
       if (!user) {
         next(createError(404, "User not found"));
       } else {
@@ -24,7 +24,7 @@ module.exports.editProfile = (req, res, next) => {
 //register
 module.exports.register = (req, res, next) => {
   User.findOne({ email: req.body.email })
-    .then(async (user) => {
+    .then((user) => {
       if (user) {
         // Error if email is already in the database
         next(
@@ -34,7 +34,7 @@ module.exports.register = (req, res, next) => {
         );
       } else {
         // User creation
-        const user_1 = await User.create(req.body);
+        const user_1 = User.create(req.body);
         return res.status(201).json(user_1);
       }
     })
@@ -69,16 +69,14 @@ module.exports.get = (req, res, next) => {
 
 //delete
 module.exports.delete = (req, res, next) => {
-  console.log(req.currentUser)
+  console.log(req.currentUser);
   console.log(req.body);
   console.log(req.body.id);
 
   User.findByIdAndDelete(req.currentUser)
-  .then(() => {
-    res.status(204).json({})
-  })
-  .catch((err) => next(err))
-}
-  /* res
-    .status(200)
-    .send({ message: "Todo bien todo correcto y yo que me alegro" }); */
+    .then(() => {
+      res.status(204).json({});
+    })
+    .catch((err) => next(err));
+};
+
