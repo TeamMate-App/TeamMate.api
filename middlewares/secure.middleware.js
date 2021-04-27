@@ -1,5 +1,7 @@
+
 module.exports.isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated) {
+      console.log("secure")
       next()
     } else {
       res.redirect('/')

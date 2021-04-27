@@ -4,12 +4,14 @@ const { sendActivationEmail } = require("../config/mailer.config")
 
 //edit
 module.exports.editProfile = (req, res, next) => {
-  // console.log("req.body", req.body);
-  // console.log("user", req.currentUser);
+  console.log("req.body", req.body);
+  console.log("user", req.currentUser);
+  console.log("ha entrado edit")
   User.findOneAndUpdate(
-    { activationToken: req.params.token, active: false },
-    { active: true, activationToken: "active" },
-    { _id: req.currentUser }, req.body, {
+    // { activationToken: req.params.token, active: false },
+    // { active: true, activationToken: "active" },
+    { _id: req.currentUser }, req.body,
+     {
     new: true,
   })
     .then((user) => {
@@ -25,8 +27,6 @@ module.exports.editProfile = (req, res, next) => {
 
 //register
 module.exports.register = (req, res, next) => {
-  console.log("HE llegado")
-  console.log("HE llegado 2",req.body.email)
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (user) {
@@ -38,11 +38,11 @@ module.exports.register = (req, res, next) => {
         );
       } else {
         // User creation
-        const user_2 = User.create(req.body)
-          .then((u) => {
-            const user_1 = user_2
-            sendActivationEmail(u.email, u.activationToken);
-            return res.status(201).json(user_1)
+         User.create(req.body)
+          .then((user) => {
+            console.log("hola", user)
+            sendActivationEmail(user.email, user.activationToken);
+            return res.status(201).json(user)
           }
           )
       }
@@ -93,7 +93,7 @@ module.exports.delete = (req, res, next) => {
 module.exports.activate = (req, res, next) => {
   User.findOneAndUpdate(
     { activationToken: req.params.token, active: false },
-    { active: true, activationToken: "active" }
+    { active: true, activationToken: "active"}
   )
 
   .then(() => {
@@ -107,3 +107,4 @@ module.exports.activate = (req, res, next) => {
 // /* res
   // .status(200)
   // .send({ message: "Todo bien todo correcto y yo que me alegro" }); */
+  // activationToken: "active"

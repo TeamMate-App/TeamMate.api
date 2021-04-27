@@ -12,7 +12,6 @@ const transporter = nodemailer.createTransport({
 
 
 module.exports.sendActivationEmail = (email, token) => {
-    console.log("hola 3")
     transporter.sendMail({
         from: `Teammate <${process.env.NM_USER}>`,
         to: email,
