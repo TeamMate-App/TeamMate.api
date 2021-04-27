@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { generateTemplate} = require("./mailTemplate")
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -11,10 +12,11 @@ const transporter = nodemailer.createTransport({
 
 
 module.exports.sendActivationEmail = (email, token) => {
+    console.log("hola 3")
     transporter.sendMail({
-        from: `"Teammate <${process.env.NM_USER}>`,
+        from: `Teammate <${process.env.NM_USER}>`,
         to: email,
         subject: "Thank you for signing up for Teammate",
-        html:""
+        html: generateTemplate(token),
     })
 }
