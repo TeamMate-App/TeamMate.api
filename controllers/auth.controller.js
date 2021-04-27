@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 module.exports.authenticate = (req, res, next) => {
   const { email, password } = req.body;
 
-  User.findOne({ email }).then((user) => {
+  User.findOne({ email:email, active:true }).then((user) => {
     if (!user) {
       // Error if no user
       next(

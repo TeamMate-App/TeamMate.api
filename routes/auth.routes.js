@@ -6,12 +6,12 @@ const authController = require("../controllers/auth.controller");
 const secure = require("../middlewares/secure.middleware")
 
 //login
-router.post("/login",secure.isAuthenticated, authController.authenticate);
+router.post("/login", authController.authenticate);
 
 //=======================nodemailer-activarToken=====================
- router.get("/user/register/activate/:token",userController.activate);
+ router.get("/activate/:token",userController.activate);
 
 //get user
-router.get("/user/me",secure.isAuthenticated, authMiddleware.isAuthenticated, userController.get);
+router.get("/user/me", authMiddleware.isAuthenticated, userController.get);
 
 module.exports = router;
