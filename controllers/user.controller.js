@@ -13,7 +13,7 @@ module.exports.editProfile = (req, res, next) => {
     new: true,
   })
     .then((user) => {
-      console.log(user)
+      console.log(user);
       if (!user) {
         next(createError(404, "User not found"));
       } else {
@@ -78,7 +78,7 @@ module.exports.get = (req, res, next) => {
 
 //delete
 module.exports.delete = (req, res, next) => {
-  console.log(req.currentUser)
+  console.log(req.currentUser);
   console.log(req.body);
   console.log(req.body.id);
 
