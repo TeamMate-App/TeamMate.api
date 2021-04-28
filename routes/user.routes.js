@@ -19,4 +19,5 @@ router.post("/register", userController.register);
 router.post("/delete", authMiddleware.isAuthenticated, userController.delete)
 
 
+
 module.exports = router;

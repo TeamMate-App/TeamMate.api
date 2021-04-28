@@ -32,15 +32,3 @@ module.exports.isAuthenticated = (req, res, next) => {
     }
   
 };
-
-
-// 
-// module.exports.isAcceptEmail = (req, res,next) => {
-// 
-    // const userModel = req.currentUser.active 
-// 
-    // if ({active:true}){
-      // next()
-    // }
-// 
-// 

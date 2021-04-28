@@ -1,19 +1,21 @@
 const createError = require("http-errors");
 const User = require("../models/User.model");
-const { sendActivationEmail } = require("../config/mailer.config")
+const { sendActivationEmail } = require("../config/mailer.config");
 
 //edit
 module.exports.editProfile = (req, res, next) => {
   console.log("req.body", req.body);
   console.log("user", req.currentUser);
-  console.log("ha entrado edit")
+  console.log("ha entrado edit");
   User.findOneAndUpdate(
     // { activationToken: req.params.token, active: false },
     // { active: true, activationToken: "active" },
-    { _id: req.currentUser }, req.body,
-     {
-    new: true,
-  })
+    { _id: req.currentUser },
+    req.body,
+    {
+      new: true,
+    }
+  )
     .then((user) => {
       console.log(user);
       if (!user) {
@@ -38,13 +40,11 @@ module.exports.register = (req, res, next) => {
         );
       } else {
         // User creation
-         User.create(req.body)
-          .then((user) => {
-            console.log("hola", user)
-            sendActivationEmail(user.email, user.activationToken);
-            return res.status(201).json(user)
-          }
-          )
+        User.create(req.body).then((user) => {
+          console.log("hola", user);
+          sendActivationEmail(user.email, user.activationToken);
+          return res.status(201).json(user);
+        });
       }
     })
     .catch(next);
@@ -84,27 +84,22 @@ module.exports.delete = (req, res, next) => {
 
   User.findByIdAndDelete(req.currentUser)
     .then(() => {
-      res.status(204).json({})
+      res.status(204).json({});
     })
-    .catch((err) => next(err))
-}
+    .catch((err) => next(err));
+};
 //activation account
 
 module.exports.activate = (req, res, next) => {
   User.findOneAndUpdate(
     { activationToken: req.params.token, active: false },
-    { active: true, activationToken: "active"}
+    { active: true, activationToken: "active" }
   )
 
-  .then(() => {
-    res.status(204).json({})
-  })
-  .catch((err) => next(err))
-    
-    
-}
+    .then(() => {
+      res.status(204).json({});
+    })
+    .catch((err) => next(err));
+};
 
-// /* res
-  // .status(200)
-  // .send({ message: "Todo bien todo correcto y yo que me alegro" }); */
-  // activationToken: "active"
+

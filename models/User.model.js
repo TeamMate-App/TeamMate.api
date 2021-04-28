@@ -71,8 +71,6 @@ const userSchema = mongoose.Schema(
       },
     },
   }
-
-
 );
 
 userSchema.pre("save", function (next) {
@@ -86,15 +84,21 @@ userSchema.pre("save", function (next) {
   }
 });
 
-userSchema.methods.checkPassword = function (passwordToCheck) {
-  return bcrypt.compare(passwordToCheck, this.password);
-};
-
 userSchema.virtual("events", {
-  ref: Event.modelName,
+  ref: "Event",
   localField: "_id",
   foreignField: "user",
 });
+
+userSchema.virtual("inscription", {
+  ref: "inscription",
+  localField: "_id",
+  foreignField: "inscription",
+});
+
+userSchema.methods.checkPassword = function (passwordToCheck) {
+  return bcrypt.compare(passwordToCheck, this.password);
+};
 
 const User = mongoose.model("User", userSchema);
 
