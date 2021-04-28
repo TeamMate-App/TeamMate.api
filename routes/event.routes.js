@@ -5,19 +5,19 @@ const authMiddleware = require("../middlewares/auth.middleware");
 const inscription = require("../controllers/inscription.controller.js");
 
 //all events
-router.get("/", eventController.getAllfromDB);
+router.get("/",authMiddleware.isAuthenticated, eventController.getAllfromDB);
 
 //create
-router.post("/create", eventController.create);
+router.post("/create",authMiddleware.isAuthenticated, eventController.create);
 
 //get
-router.get("/:id", eventController.get);
+router.get("/:id",authMiddleware.isAuthenticated, eventController.get);
 
 //delete
-router.post("/delete/:id", eventController.delete);
+router.post("/delete/:id",authMiddleware.isAuthenticated, eventController.delete);
 
 //edit event
-router.put("/edit/:id", authMiddleware.isAuthenticated, eventController.edit);
+router.put("/edit/:id",authMiddleware.isAuthenticated, authMiddleware.isAuthenticated, eventController.edit);
 
 router.get("/join/:matchId", authMiddleware.isAuthenticated, inscription.isSubscribed);
 

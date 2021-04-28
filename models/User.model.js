@@ -45,6 +45,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    social: {
+      google: String,
+      /* feisbuk: String */
+    },
 
     activationToken: {
       type: String,
