@@ -14,6 +14,7 @@ const storage = new CloudinaryStorage({
         folder:'Teammate',
         allowed_formats: ['jpg','png','jpeg','gif']
     }
+    
 })
 
 module.exports = multer({storage:storage})

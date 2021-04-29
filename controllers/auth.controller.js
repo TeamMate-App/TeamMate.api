@@ -48,7 +48,6 @@ module.exports.authenticate = (req, res, next) => {
 //login with Google
 module.exports.googleLogin = (req, res) => {
   const { tokenId } = req.body;
-
   client
     .verifyIdToken({
       idToken: tokenId,
@@ -69,14 +68,19 @@ module.exports.googleLogin = (req, res) => {
                 expiresIn: "7d",
               });
               const { _id, name, email, active } = user;
-
               res.json({
                 token,
                 user: { _id, name, email: true },
               });
             } else {
               let password = email + process.env.JWT_SECRET;
-              let newUser = new User({ name, email, password, active: true });
+              let newUser = new User({
+                name,
+                email,
+                password,
+                active: true,
+                activationToken: "active",
+              });
               newUser.save((err, data) => {
                 if (err) {
                   createError(404, {

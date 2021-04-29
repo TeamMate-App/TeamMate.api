@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/user.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
+const upload = require("../config/storage.config")
 
 // user
 router.get("/me", userController.get);
@@ -10,11 +11,7 @@ router.get("/me", userController.get);
 router.get("/allusers", userController.getAllfromDB);
 
 //edit profile
-router.put(
-  "/edit/",
-  authMiddleware.isAuthenticated,
-  userController.editProfile
-);
+router.put("/edit/", authMiddleware.isAuthenticated,upload.single("image"), userController.editProfile);
 
 //register
 router.post("/register", userController.register);

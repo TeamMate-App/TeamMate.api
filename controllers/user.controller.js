@@ -12,6 +12,7 @@ module.exports.editProfile = (req, res, next) => {
       if (!user) {
         next(createError(404, "User not found"));
       } else {
+        user.image = req.file.path
         return user.save(user).then((user) => res.json({ user }));
       }
     })
