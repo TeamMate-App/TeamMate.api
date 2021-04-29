@@ -2,15 +2,13 @@ const mongoose = require("mongoose");
 const faker = require("faker");
 
 const User = require("../models/User.model");
-const Courts = require("../models/Courts.model");
-const Event = require("../models/Event.model")
-
-const sports = require("../constants/sports")
+const Inscription = require("../models/Inscription.model");
+const Game = require("../models/Game.model");
 
 
 require("../config/db.config");
 
-let usersCreated = []
+let usersCreated = [];
 
 mongoose.connection.once("open", () => {
   console.info(
@@ -38,49 +36,48 @@ mongoose.connection.once("open", () => {
     .then((users) => {
       console.log(`${users.length} users created`);
       console.log(`${users} users info`);
-      usersCreated = users
+      usersCreated = users;
 
-      //Create Courts
-      const courts = [];
-
-      for (let index = 0; index < 10; index++) {
-        courts.push({
-          name: faker.name.findName(),
-          address: faker.address.streetName(),
-          image: faker.image.sports(),
-          description: faker.commerce.productDescription(),
-          price: faker.commerce.price(),
-          /* categories:[categories[Math.floor(Math.random() * categories.length)]], */
-          /*  place:[place[Math.floor(Math.random() * place.length)]], */
-          /*  Surface:[Surface[Math.floor(Math.random() * Surface.length)]],
-          Wall:[Wall[Math.floor(Math.random() * Wall.length)]], */
-        });
-      }
-      return Courts.create(courts);
-    })
-    .then((courts) => {
-      console.log(`${courts.length} courts created`);
-      
       //Create Events
-      const events = []
-      
-      for(let i = 0; i < 10; i++) {
-        events.push({
+      const games = [];
+
+      for (let i = 0; i < 10; i++) {
+        games.push({
           name: faker.name.findName(),
           description: faker.commerce.productDescription(),
           address: faker.address.streetName(),
           image: faker.image.sports(),
           user: usersCreated[0].id,
-          sports: sports[Math.floor(Math.random() * sports.length)],
-          date: new Date,
-          
-         
-        })
+          date: new Date(),
+        });
       }
-      return Event.create(events)
+      return Game.create(games);
     })
-    .then(events => {
-      console.log(`${events.length} eventos creados`)
+    .then((games) => {
+      console.log(`${games.length} eventos creados`);
+      gamesCreated = games;
+
+      //Create Courts
+      const Inscription = [];
+
+      for (let index = 0; index < 10; index++) {
+        Inscription.push({
+          user: usersCreated[0].id,
+          event: gamesCreated[0].id,
+
+          /*  image: faker.image.sports(),
+                description: faker.commerce.productDescription(),
+                price: faker.commerce.price(), */
+          /* categories:[categories[Math.floor(Math.random() * categories.length)]], */
+          /*  place:[place[Math.floor(Math.random() * place.length)]], */
+          /*  Surface:[Surface[Math.floor(Math.random() * Surface.length)]],
+                Wall:[Wall[Math.floor(Math.random() * Wall.length)]], */
+        });
+      }
+      return Inscription;
+    })
+    .then((Inscription) => {
+      console.log(`${Inscription.length} Inscription created`);
     })
 
     .then(() => console.info(`- All data created!`))

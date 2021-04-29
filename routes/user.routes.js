@@ -4,13 +4,11 @@ const userController = require("../controllers/user.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 const upload = require("../config/storage.config")
 
-
-
 // user
 router.get("/me", userController.get);
 
 //all users
-router.get("/allusers" ,userController.getAllfromDB);
+router.get("/allusers", userController.getAllfromDB);
 
 //edit profile
 router.put("/edit/", authMiddleware.isAuthenticated,upload.single("image"), userController.editProfile);
@@ -19,7 +17,6 @@ router.put("/edit/", authMiddleware.isAuthenticated,upload.single("image"), user
 router.post("/register", userController.register);
 
 //delete
-router.post("/delete", authMiddleware.isAuthenticated, userController.delete)
-
+router.post("/delete", authMiddleware.isAuthenticated, userController.delete);
 
 module.exports = router;

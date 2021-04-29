@@ -1,5 +1,5 @@
 const createError = require("http-errors");
-const Event = require("../models/Event.model");
+const Event = require("../models/Game.model");
 
 //create
 module.exports.create = (req, res, next) => {
@@ -45,7 +45,6 @@ module.exports.get = (req, res, next) => {
 
 //edit
 module.exports.edit = (req, res, next) => {
-  console.log(req.body);
   Event.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
   })
@@ -61,14 +60,9 @@ module.exports.edit = (req, res, next) => {
 
 //delete
 module.exports.delete = (req, res, next) => {
-  console.log("module.exports.delete");
-  console.log("req.body", req.body);
-  console.log("req params", req.params);
-
   Event.findByIdAndRemove({ _id: req.params.id })
 
     .then(() => {
-      console.log("llego");
       res.status(204).json({});
     })
     .catch((err) => next(err));

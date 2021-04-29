@@ -1,9 +1,7 @@
-const { date } = require("faker");
 const mongoose = require("mongoose");
-const sports = require("../constants/sports")
-require("../models/User.model")
+require("./User.model");
 
-const EventSchema = mongoose.Schema(
+const GameSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -13,13 +11,14 @@ const EventSchema = mongoose.Schema(
       type: String,
       require: false,
     },
+
     user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
     sport: {
       type: [String],
-      enum: sports
+      default: "Padel",
     },
     date: {
       type: Date,
@@ -56,6 +55,19 @@ const EventSchema = mongoose.Schema(
   }
 );
 
-const Event = mongoose.model("Event", EventSchema);
+// Game - inscription
+GameSchema.virtual("inscription", {
+  ref: "inscription",
+  localField: "_id",
+  foreignField: "game",
+});
+// Game - User
+GameSchema.virtual("User", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "game",
+});
 
-module.exports = Event;
+const Game = mongoose.model("Game", GameSchema);
+
+module.exports = Game;
