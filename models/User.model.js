@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const Review = require("./modelos que no usamos/Review.model");
-const Event = require("./Event.model");
 
+//Email type condition
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+//times password hash
 const SALT_WORK_FACTOR = 10;
 
 const userSchema = mongoose.Schema(
@@ -47,7 +48,6 @@ const userSchema = mongoose.Schema(
     },
     social: {
       google: String,
-      /* feisbuk: String */
     },
 
     activationToken: {
@@ -77,6 +77,7 @@ const userSchema = mongoose.Schema(
   }
 );
 
+//bcrypt hash password
 userSchema.pre("save", function (next) {
   if (this.isModified("password")) {
     bcrypt.hash(this.password, SALT_WORK_FACTOR).then((hash) => {
@@ -88,22 +89,25 @@ userSchema.pre("save", function (next) {
   }
 });
 
-userSchema.virtual("events", {
-  ref: "Event",
-  localField: "_id",
-  foreignField: "user",
-});
-
-userSchema.virtual("inscription", {
-  ref: "inscription",
-  localField: "_id",
-  foreignField: "inscription",
-});
-
+//bcrypt check password
 userSchema.methods.checkPassword = function (passwordToCheck) {
   return bcrypt.compare(passwordToCheck, this.password);
 };
 
-const User = mongoose.model("User", userSchema);
+//User - Events
+userSchema.virtual("Game", {
+  ref: "Game",
+  localField: "_id",
+  foreignField: "user",
+});
 
+//User - Inscription
+userSchema.virtual("Inscription", {
+  ref: "Inscription",
+  localField: "_id",
+  foreignField: "user",
+});
+
+//export
+const User = mongoose.model("User", userSchema);
 module.exports = User;

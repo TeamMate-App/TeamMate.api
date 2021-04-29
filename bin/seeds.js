@@ -2,11 +2,9 @@ const mongoose = require("mongoose");
 const faker = require("faker");
 
 const User = require("../models/User.model");
-const RegisterEvent = require("../models/RegisterEvent.model");
-const Event = require("../models/Event.model");
+const Inscription = require("../models/Inscription.model");
+const Game = require("../models/Game.model");
 
-const sports = require("../constants/sports");
-const { registerEvent } = require("../controllers/event.controller");
 
 require("../config/db.config");
 
@@ -41,32 +39,31 @@ mongoose.connection.once("open", () => {
       usersCreated = users;
 
       //Create Events
-      const events = [];
+      const games = [];
 
       for (let i = 0; i < 10; i++) {
-        events.push({
+        games.push({
           name: faker.name.findName(),
           description: faker.commerce.productDescription(),
           address: faker.address.streetName(),
           image: faker.image.sports(),
           user: usersCreated[0].id,
-          sports: sports[Math.floor(Math.random() * sports.length)],
           date: new Date(),
         });
       }
-      return Event.create(events);
+      return Game.create(games);
     })
-    .then((events) => {
-      console.log(`${events.length} eventos creados`);
-      eventsCreated = events;
+    .then((games) => {
+      console.log(`${games.length} eventos creados`);
+      gamesCreated = games;
 
       //Create Courts
-      const RegisterEvent = [];
+      const Inscription = [];
 
       for (let index = 0; index < 10; index++) {
-        RegisterEvent.push({
+        Inscription.push({
           user: usersCreated[0].id,
-          event: eventsCreated[0].id,
+          event: gamesCreated[0].id,
 
           /*  image: faker.image.sports(),
                 description: faker.commerce.productDescription(),
@@ -77,10 +74,10 @@ mongoose.connection.once("open", () => {
                 Wall:[Wall[Math.floor(Math.random() * Wall.length)]], */
         });
       }
-      return registerEvent;
+      return Inscription;
     })
-    .then((RegisterEvent) => {
-      console.log(`${RegisterEvent.length} RegisterEvent created`);
+    .then((Inscription) => {
+      console.log(`${Inscription.length} Inscription created`);
     })
 
     .then(() => console.info(`- All data created!`))

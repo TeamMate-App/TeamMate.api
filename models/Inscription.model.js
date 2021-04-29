@@ -1,23 +1,27 @@
 const mongoose = require("mongoose");
-const User = require("./User.model");
-const Event = require("./Event.model");
 
 const InscriptionSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "User",
+      required: true,
     },
-    event: {
+    game: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "Event",
+      ref: "Game",
       required: true,
     },
   },
   {
     timestamps: true,
     toJSON: {
-      virtuals: true,
+      transform: (doc, ret) => {
+        ret.id = doc._id;
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
     },
   }
 );

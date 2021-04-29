@@ -15,21 +15,18 @@ const app = express();
 /* Middlewares */
 
 app.use(express.json());
-app.use(logger('dev'));
-app.use(cors())
+app.use(logger("dev"));
+app.use(cors());
 
 /* Routes */
 
-const routes = require("./config/routes.config");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
-const eventRoutes = require("./routes/event.routes");
+const gameRoutes = require("./routes/game.routes");
 
-app.use("/api", routes);
 app.use("/api", authRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/events", eventRoutes);
-
+app.use("/api/games", gameRoutes);
 
 /* Handle Errors */
 

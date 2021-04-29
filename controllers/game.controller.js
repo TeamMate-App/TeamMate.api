@@ -1,8 +1,5 @@
 const createError = require("http-errors");
-const Event = require("../models/Event.model"); /* 
-const RegisterEvent = require("../models/RegisterEvent.model"); */
-/* const registerEvent = require("../models/RegisterEvent.model"); */
-const User = require("../models/User.model");
+const Event = require("../models/Game.model");
 
 //create
 module.exports.create = (req, res, next) => {
@@ -70,4 +67,3 @@ module.exports.delete = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
-
