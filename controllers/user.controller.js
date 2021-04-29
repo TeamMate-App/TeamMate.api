@@ -5,9 +5,7 @@ const passport = require('passport')
 
 //edit
 module.exports.editProfile = (req, res, next) => {
-  console.log("req.body", req.body);
-  console.log("user", req.currentUser);
-  console.log("ha entrado edit")
+  console.log("req.file", req.file)
   User.findOneAndUpdate(
     // { activationToken: req.params.token, active: false },
     // { active: true, activationToken: "active" },
@@ -16,10 +14,10 @@ module.exports.editProfile = (req, res, next) => {
     new: true,
   })
     .then((user) => {
-      console.log(user);
       if (!user) {
         next(createError(404, "User not found"));
       } else {
+        user.image = req.file.path
         return user.save(user).then((user) => res.json({ user }));
       }
     })

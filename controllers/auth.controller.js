@@ -66,7 +66,7 @@ module.exports.googleLogin = (req, res) => {
             })
           } else {
             let password = email + process.env.JWT_SECRET;
-            let newUser = new User({ name, email, password, active: true });
+            let newUser = new User({ name, email, password, active: true, activationToken:"active" });
             newUser.save((err, data) => {
               if (err) {
                 createError(404, {
