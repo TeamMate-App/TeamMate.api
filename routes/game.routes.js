@@ -3,12 +3,13 @@ const router = express.Router();
 const GameController = require("../controllers/game.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 const inscription = require("../controllers/subscription.controller.js");
+const upload = require ("../config/storage.config")
 
 //all events
 router.get("/", authMiddleware.isAuthenticated, GameController.getAllfromDB);
 
 //create
-router.post("/create", GameController.create);
+router.post("/create",upload.single("image"), GameController.create);
 
 //get
 router.get("/:id", authMiddleware.isAuthenticated, GameController.get);
@@ -21,7 +22,7 @@ router.post(
 );
 
 //edit event
-router.put("/edit/:id", authMiddleware.isAuthenticated, GameController.edit);
+router.put("/edit/:id", authMiddleware.isAuthenticated,upload.single("image"), GameController.edit);
 
 router.get(
   "/join/:GameId",
