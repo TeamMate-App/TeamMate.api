@@ -23,10 +23,12 @@ app.use(cors());
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
 const gameRoutes = require("./routes/game.routes");
+const commentsRoutes = require("./routes/comment.routes")
 
 app.use("/api", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/games", gameRoutes);
+app.use("/api/comments",commentsRoutes);
 
 /* Handle Errors */
 

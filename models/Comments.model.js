@@ -5,14 +5,21 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  track: {
+  game: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Game'
   },
   message: {
     type: String,
-    required: true,
   },
+
+  author: {
+    type: String,
+  },
+  body: {
+    type: String
+  }
+
 });
 
 
