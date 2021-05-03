@@ -1,32 +1,33 @@
 const createError = require("http-errors");
-const Event = require("../models/Game.model");
+const Game = require("../models/Game.model");
 
 //create
 module.exports.create = (req, res, next) => {
-  Event.findOne({ event: req.body })
-    .then(async (event) => {
-      if (event) {
+  Game.findOne({ game: req.body })
+    .then(async (game) => {
+      if (game) {
         next(
           createError(400, {
-            errors: { event: "This event has been created" },
+            errors: { game: "This game has been created" },
           })
         );
       } else {
-        const event_1 = await Event.create(req.body);
-        return res.status(201).json(event_1);
+        const game_1 = await Game.create(req.body);
+        return res.status(201).json(game_1);
       }
     })
     .catch(next);
 };
 
-//get all events
+
+//get all games
 module.exports.getAllfromDB = (req, res, next) => {
-  Event.find()
-    .then((events) => {
-      if (!events) {
-        next(createError(404, "events not found"));
+  Game.find()
+    .then((games) => {
+      if (!games) {
+        next(createError(404, "games not found"));
       } else {
-        res.status(200).json(events);
+        res.status(200).json(games);
       }
     })
     .catch(next);
@@ -34,25 +35,25 @@ module.exports.getAllfromDB = (req, res, next) => {
 
 //get
 module.exports.get = (req, res, next) => {
-  Event.findById(req.params.id).then((event) => {
-    if (!event) {
-      next(createError(404, "event not found"));
+  Game.findById(req.params.id).then((game) => {
+    if (!game) {
+      next(createError(404, "game not found"));
     } else {
-      res.json(event);
+      res.json(game);
     }
   });
 };
 
 //edit
 module.exports.edit = (req, res, next) => {
-  Event.findOneAndUpdate({ _id: req.params.id }, req.body, {
+  Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
   })
-    .then((event) => {
-      if (!event) {
-        next(createError(404, "event not found"));
+    .then((game) => {
+      if (!game) {
+        next(createError(404, "game not found"));
       } else {
-        return event.save(event).then((event) => res.json(event));
+        return game.save(game).then((game) => res.json(game));
       }
     })
     .catch((error) => next(error));
@@ -60,7 +61,7 @@ module.exports.edit = (req, res, next) => {
 
 //delete
 module.exports.delete = (req, res, next) => {
-  Event.findByIdAndRemove({ _id: req.params.id })
+  Game.findByIdAndRemove({ _id: req.params.id })
 
     .then(() => {
       res.status(204).json({});
