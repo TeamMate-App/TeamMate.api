@@ -1,14 +1,14 @@
-const Inscription = require("../models/Inscription.model");
+const Subscriptions = require("../models/Subscriptions.model");
 const {confirmInscription} = require("../config/mailer.config")
 const User = require("../models/User.model")
 
 
 //check is subscribed
-module.exports.isSubscribed = (req, res, next) => {
+module.exports.isSubscribed = (req, res) => {
   const game = req.params.gameId;
   const user = req.currentUser;
 
-  Inscription.findOne({ game: game, user: user }).then((inscription) => {
+  Subscriptions.findOne({ game: game, user: user }).then((inscription) => {
     if (inscription) res.send(true);
     else res.send(null);
   });
@@ -19,44 +19,74 @@ module.exports.subscribe = (req, res, next) => {
   const game = req.params.GameId;
   const user = req.currentUser;
 
-  Inscription.find({ game: game }).then((inscriptions) => {
+  Subscriptions.find({ game: game }).then((inscriptions) => {
     const currentUserInscription = inscriptions.find(
-      (inscription) => inscription.userId === user
+      ({ user: user }) => user === user
     );
-    if (currentUserInscription)
-      res.send("Error, ya estabas apuntado al evento");
+    if (currentUserInscription) {
+      res
+        .send("Error, ya estabas apuntado al evento")
+        .catch((err) => next(err));
+    }
+
     const isEmpty = inscriptions.length < 4;
     if (isEmpty) {
-      Inscription.create({ user: user, game: game })
+      Subscriptions.create({ user: user, game: game })
         .then((createdinscription) => {
           confirmInscription()
           res.send("Te has apuntado correctamente al evento!");
         })
         .catch((err) => next(err));
     } else {
+/*       console.log(inscriptions[0].user);
+ */
       res.send("Error, el evento tiene ya 4 jugadores.");
     }
   });
+}
 
-  Inscription.findOne({
-    $and: [
-      {
-        game: game,
-      },
-      {
-        user: user,
-      },
-    ],
-  })
-    .then((inscription) => {
-      if (inscription) {
-        res.send("¡Error, ya estás inscrito en esta pista!");
+
+//Mostrar users apuntados al evento
+
+module.exports.playersSubscribed = (req, res, next) => {
+  const game = req.params.gameId;
+  Subscriptions.find(game)
+
+    .populate("user")
+    .then((players) => {
+      if (!players) {
+        next(createError(404, "players not found"));
       } else {
+        console.log(players);
+        res.json(players);
       }
     })
-    .catch((err) => next(err));
+    .catch(next);
 };
 
+/* module.exports.playersSubscribed = (req, res, next) => {
+  const game = req.params.gameId;
+  Subscriptions.find(game).then((users) => {
+    if (!users) {
+      next(createError(404, "Any player suscribed"));
+    } else {
+      res.status(200).json(users);
+      console.log(req);
+
+      User.find()
+        .populate("User")
+        .then((Players) => {
+          if (!Players) {
+            next(createError(404, "Players not found"));
+          } else {
+            console.log("req");
+            res.status(200).json(Players);
+          }
+        })
+        .catch(next);
+    }
+  });
+}; */
 /* //Unsubscribe
 module.exports.unsubscribe = (req, res, next) => {
   const event = req.params.matchId;

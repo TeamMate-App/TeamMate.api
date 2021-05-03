@@ -1,11 +1,8 @@
 const createError = require("http-errors");
 const Game = require("../models/Game.model");
 
-
 //create
 module.exports.create = (req, res, next) => {
-  console.log("entra en create", req.body)
-
   Game.findOne({ game: req.body })
     .then(async (game) => {
       if (game) {
