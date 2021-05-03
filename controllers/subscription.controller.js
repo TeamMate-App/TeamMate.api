@@ -1,6 +1,4 @@
 const Subscriptions = require("../models/Subscriptions.model");
-const User = require("../models/User.model");
-const Inscription = require("../models/Inscription.model");
 const {confirmInscription} = require("../config/mailer.config")
 const User = require("../models/User.model")
 
