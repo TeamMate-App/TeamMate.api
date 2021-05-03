@@ -41,6 +41,19 @@ const GameSchema = mongoose.Schema(
     address: {
       type: String,
     },
+
+    location: {
+      type: {
+        type: String,
+        enum: ['Point'],
+        required: true
+      },
+      coordinates: {
+        type: [Number],
+        required: true
+      }
+    },
+
   },
   {
     timestamps: true,

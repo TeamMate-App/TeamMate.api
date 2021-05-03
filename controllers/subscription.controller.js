@@ -1,5 +1,9 @@
 const Subscriptions = require("../models/Subscriptions.model");
 const User = require("../models/User.model");
+const Inscription = require("../models/Inscription.model");
+const {confirmInscription} = require("../config/mailer.config")
+const User = require("../models/User.model")
+
 
 //check is subscribed
 module.exports.isSubscribed = (req, res) => {
@@ -31,6 +35,7 @@ module.exports.subscribe = (req, res, next) => {
     if (isEmpty) {
       Subscriptions.create({ user: user, game: game })
         .then((createdinscription) => {
+          confirmInscription()
           res.send("Te has apuntado correctamente al evento!");
         })
         .catch((err) => next(err));

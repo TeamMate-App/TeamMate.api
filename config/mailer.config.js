@@ -19,3 +19,35 @@ module.exports.sendActivationEmail = (email, token) => {
         html: generateTemplate(token),
     })
 }
+
+
+module.exports.contactUsEmail = (email, subject) => {
+	transporter.sendMail({
+		from: `"Teammate" <${process.env.NM_USER}>`,
+		to: email,
+		subject: "Your Comment has arrived",
+		text: "You will receive your reply shortly.",
+		html: `
+				<h1>¡Thank you for contacting us!</h1>
+				<p>We have received your message about ${subject}</p>
+				<p>We will contact you as soon as possible</p>
+			`
+	})
+};
+
+
+
+module.exports.confirmInscription = (email, subject) => {
+	transporter.sendMail({
+		from: `"Teammate" <${process.env.NM_USER}>`,
+		to: email,
+		subject: "Enrollment confirmation",
+		text: "These are the details of your reservation",
+		html: `
+				<h1>You have signed up for the game${game.name}</h1>
+                <p>${game.address} </p>
+                <p>${game.date}</p>
+                <p>${game.location}</p>
+			`
+	})
+};

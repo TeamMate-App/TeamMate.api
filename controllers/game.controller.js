@@ -19,7 +19,6 @@ module.exports.create = (req, res, next) => {
     .catch(next);
 };
 
-
 //get all games
 module.exports.getAllfromDB = (req, res, next) => {
   Game.find()
@@ -53,6 +52,7 @@ module.exports.edit = (req, res, next) => {
       if (!game) {
         next(createError(404, "game not found"));
       } else {
+        game.image = req.file.path 
         return game.save(game).then((game) => res.json(game));
       }
     })
