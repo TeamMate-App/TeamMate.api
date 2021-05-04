@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const faker = require("faker");
 
 const User = require("../models/User.model");
-const Inscription = require("../models/Inscription.model");
+const Subscriptions = require("../models/Subscriptions.model");
 const Game = require("../models/Game.model");
 
 
@@ -58,10 +58,10 @@ mongoose.connection.once("open", () => {
       gamesCreated = games;
 
       //Create Courts
-      const Inscription = [];
+      const Su = [];
 
       for (let index = 0; index < 10; index++) {
-        Inscription.push({
+        Subcriptions.push({
           user: usersCreated[0].id,
           event: gamesCreated[0].id,
 
@@ -74,10 +74,10 @@ mongoose.connection.once("open", () => {
                 Wall:[Wall[Math.floor(Math.random() * Wall.length)]], */
         });
       }
-      return Inscription;
+      return Subcriptions;
     })
-    .then((Inscription) => {
-      console.log(`${Inscription.length} Inscription created`);
+    .then((Subcriptions) => {
+      console.log(`${Subcriptions.length} Subcriptions created`);
     })
 
     .then(() => console.info(`- All data created!`))
