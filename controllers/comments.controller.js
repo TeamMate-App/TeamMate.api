@@ -3,18 +3,19 @@ const Comment = require("../models/Comments.model");
 
 //get current comment
 module.exports.get = (req, res, next) => {
-    Comment.findById(req.currentComment).then((comment) => {
-        if (!comment) {
-            next(createError(404, "Comment not found"));
+    Comment.find()
+    .then((comments) => {
+        if (!comments) {
+          next(createError(404, "Comment not found"));
         } else {
-            res.json(comment);
+          res.status(200).json(comments);
         }
-    });
-};
-
+      })
+      .catch(next);
+    };
 
 module.exports.create = (req, res, next) => {
-    Comment.findOne({ id: req.body })
+    Comment.findOne({ id: req.body})
         .then((comment) => {
             if (comment) {
                 // Error if email is already in the database
@@ -26,7 +27,7 @@ module.exports.create = (req, res, next) => {
             } else {
                 // Comment creation
                 Comment.create(req.body).then((comment) => {
-                 
+                 console.log("comment en BBDD", req.body)
                     return res.status(201).json(comment);
                 });
             }

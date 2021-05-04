@@ -9,9 +9,6 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Game'
   },
-  message: {
-    type: String,
-  },
 
   author: {
     type: String,

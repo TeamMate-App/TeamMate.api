@@ -38,6 +38,11 @@ const userSchema = mongoose.Schema(
       message: () => "Invalid image URL",
       },
     },
+
+    description:{
+      type: String,
+    },
+
     address: {
       type: String,
     },
