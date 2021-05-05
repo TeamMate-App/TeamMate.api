@@ -65,7 +65,7 @@ module.exports.googleLogin = (req, res) => {
           } else {
             if (user) {
               const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-                expiresIn: "7d",
+                expiresIn: "1d",
               });
               const { _id, name, email, active } = user;
               res.json({
@@ -90,7 +90,7 @@ module.exports.googleLogin = (req, res) => {
                 const token = jwt.sign(
                   { _id: data._id },
                   process.env.JWT_SECRET,
-                  { expiresIn: "7d" }
+                  { expiresIn: "1d" }
                 );
                 const { _id, name, email } = new User();
                 res.json({

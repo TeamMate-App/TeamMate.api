@@ -3,7 +3,8 @@ const faker = require("faker");
 
 const User = require("../models/User.model");
 /* const Inscription = require("../models/Inscription.model"); */
-const Game = require("../models/Game.model");
+/* const Subscriptions = require("../models/Subscriptions.model");
+ */const Game = require("../models/Game.model");
 
 
 require("../config/db.config");
