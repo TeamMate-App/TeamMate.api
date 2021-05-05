@@ -13,6 +13,11 @@ const GameSchema = mongoose.Schema(
       require: false,
     },
 
+    comments: {
+      type: mongoose.Types.ObjectId,
+      ref: "comment",
+    },
+
     user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
@@ -28,21 +33,21 @@ const GameSchema = mongoose.Schema(
     date: {
       type: Date,
     },
-  /*   image: {
-      type: String,
-      validate: {
-        validator: (value) => {
-          try {
-            const url = new URL(value);
-
-            return url.protocol === "http:" || url.protocol === "https:";
-          } catch (err) {
-            return false;
-          }
+    /*   image: {
+        type: String,
+        validate: {
+          validator: (value) => {
+            try {
+              const url = new URL(value);
+  
+              return url.protocol === "http:" || url.protocol === "https:";
+            } catch (err) {
+              return false;
+            }
+          },
+          message: () => "Invalid image URL",
         },
-        message: () => "Invalid image URL",
-      },
-    }, */
+      }, */
     address: {
       type: String,
     },
@@ -84,6 +89,12 @@ GameSchema.virtual("inscription", {
 // Game - User
 GameSchema.virtual("User", {
   ref: "User",
+  localField: "_id",
+  foreignField: "game",
+});
+//Game - comments
+GameSchema.virtual("Comment", {
+  ref: "comment",
   localField: "_id",
   foreignField: "game",
 });
