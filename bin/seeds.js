@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const faker = require("faker");
 
 const User = require("../models/User.model");
-const Inscription = require("../models/Inscription.model");
+/* const Inscription = require("../models/Inscription.model"); */
 const Game = require("../models/Game.model");
 
 
@@ -58,27 +58,20 @@ mongoose.connection.once("open", () => {
       gamesCreated = games;
 
       //Create Courts
-      const Inscription = [];
+      /* const Inscription = []; */
 
-      for (let index = 0; index < 10; index++) {
+     /*  for (let index = 0; index < 10; index++) {
         Inscription.push({
           user: usersCreated[0].id,
           event: gamesCreated[0].id,
 
-          /*  image: faker.image.sports(),
-                description: faker.commerce.productDescription(),
-                price: faker.commerce.price(), */
-          /* categories:[categories[Math.floor(Math.random() * categories.length)]], */
-          /*  place:[place[Math.floor(Math.random() * place.length)]], */
-          /*  Surface:[Surface[Math.floor(Math.random() * Surface.length)]],
-                Wall:[Wall[Math.floor(Math.random() * Wall.length)]], */
         });
-      }
-      return Inscription;
+      } */
+ /*      return Inscription; */
     })
-    .then((Inscription) => {
+  /*   .then((Inscription) => {
       console.log(`${Inscription.length} Inscription created`);
-    })
+    }) */
 
     .then(() => console.info(`- All data created!`))
     .catch((error) => console.error(error))

@@ -5,7 +5,7 @@ const authMiddleware = require("../middlewares/auth.middleware");
 const upload = require("../config/storage.config")
 
 // user
-router.get("/me", userController.get);
+router.get("/me",authMiddleware.isAuthenticated, userController.get);
 
 //all users
 router.get("/allusers", userController.getAllfromDB);
