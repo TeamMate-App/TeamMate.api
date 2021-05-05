@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 require("./User.model");
+const mongooseDateFormat = require('mongoose-date-format');
 
 const GameSchema = mongoose.Schema(
   {
@@ -16,6 +17,10 @@ const GameSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+    players: {
+      type: mongoose.Types.ObjectId,
+      ref: "inscription",
+    },
     sport: {
       type: [String],
       default: "Padel",
@@ -23,7 +28,7 @@ const GameSchema = mongoose.Schema(
     date: {
       type: Date,
     },
-    image: {
+  /*   image: {
       type: String,
       validate: {
         validator: (value) => {
@@ -37,7 +42,7 @@ const GameSchema = mongoose.Schema(
         },
         message: () => "Invalid image URL",
       },
-    },
+    }, */
     address: {
       type: String,
     },
@@ -67,6 +72,8 @@ const GameSchema = mongoose.Schema(
     },
   }
 );
+
+GameSchema.plugin(mongooseDateFormat);
 
 // Game - inscription
 GameSchema.virtual("inscription", {

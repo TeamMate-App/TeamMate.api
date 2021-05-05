@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 const faker = require("faker");
 
 const User = require("../models/User.model");
-const Subscriptions = require("../models/Subscriptions.model");
-const Game = require("../models/Game.model");
+/* const Inscription = require("../models/Inscription.model"); */
+/* const Subscriptions = require("../models/Subscriptions.model");
+ */const Game = require("../models/Game.model");
 
 
 require("../config/db.config");
@@ -58,27 +59,20 @@ mongoose.connection.once("open", () => {
       gamesCreated = games;
 
       //Create Courts
-      const Su = [];
+      /* const Inscription = []; */
 
-      for (let index = 0; index < 10; index++) {
-        Subcriptions.push({
+     /*  for (let index = 0; index < 10; index++) {
+        Inscription.push({
           user: usersCreated[0].id,
           event: gamesCreated[0].id,
 
-          /*  image: faker.image.sports(),
-                description: faker.commerce.productDescription(),
-                price: faker.commerce.price(), */
-          /* categories:[categories[Math.floor(Math.random() * categories.length)]], */
-          /*  place:[place[Math.floor(Math.random() * place.length)]], */
-          /*  Surface:[Surface[Math.floor(Math.random() * Surface.length)]],
-                Wall:[Wall[Math.floor(Math.random() * Wall.length)]], */
         });
-      }
-      return Subcriptions;
+      } */
+ /*      return Inscription; */
     })
-    .then((Subcriptions) => {
-      console.log(`${Subcriptions.length} Subcriptions created`);
-    })
+  /*   .then((Inscription) => {
+      console.log(`${Inscription.length} Inscription created`);
+    }) */
 
     .then(() => console.info(`- All data created!`))
     .catch((error) => console.error(error))
