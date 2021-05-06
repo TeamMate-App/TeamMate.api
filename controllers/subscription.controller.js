@@ -1,5 +1,4 @@
 const Subscriptions = require("../models/Subscriptions.model");
-/* const {confirmInscription} = require("../config/mailer.config") */
 const User = require("../models/User.model");
 
 //check is subscribed
@@ -19,8 +18,6 @@ module.exports.subscribe = (req, res, next) => {
   const user = req.currentUser;
 
   Subscriptions.find({ game: game }).then((inscriptions) => {
-    if (inscriptions && inscriptions.length == 3) return console.log("tue");
-
     if (inscriptions && inscriptions.length == 1) {
       const player1 = inscriptions[0].user;
       console.log("mayor que 1");
@@ -86,7 +83,6 @@ module.exports.subscribe = (req, res, next) => {
 };
 
 //Mostrar users apuntados al evento
-
 module.exports.playersSubscribed = (req, res, next) => {
   const game = req.params.GameId;
   console.log("req.paramsss", req.params.GameId);
@@ -108,49 +104,15 @@ module.exports.playersSubscribed = (req, res, next) => {
     .catch(next);
 };
 
-/* module.exports.playersSubscribed = (req, res, next) => {
-  const game = req.params.gameId;
-  Subscriptions.find(game).then((users) => {
-    if (!users) {
-      next(createError(404, "Any player suscribed"));
-    } else {
-      res.status(200).json(users);
-      console.log(req);
+//Unsubscribe
 
-      User.find()
-        .populate("User")
-        .then((Players) => {
-          if (!Players) {
-            next(createError(404, "Players not found"));
-          } else {
-            console.log("req");
-            res.status(200).json(Players);
-          }
-        })
-        .catch(next);
-    }
-  });
-}; */
-/* //Unsubscribe
 module.exports.unsubscribe = (req, res, next) => {
-  const event = req.params.matchId;
+  const game = req.params.id;
   const user = req.currentUser;
-  Inscription.findOne({
-    $and: [
-      {
-        event: event,
-      },
-      {
-        user: user,
-      },
-    ],
-  }).then((inscription) => {
-    if (inscription) {
-      Inscription.deleteOne({ user: user, event: event })
-        .then((data) => res.send("Te has desapuntado correctamente del evento"))
-        .catch((error) => next(error));
-    } else {
-      res.send("¡Error, no estás inscrito en esta pista");
-    }
-  });
-}; */
+
+  Subscriptions.findOneAndDelete({ game, user })
+    .then((result) => {
+      res.send("Te has desapuntado correctamente");
+    })
+    .catch(next);
+};

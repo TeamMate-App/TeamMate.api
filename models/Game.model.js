@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 require("./User.model");
-const mongooseDateFormat = require('mongoose-date-format');
+const mongooseDateFormat = require("mongoose-date-format");
 
 const GameSchema = mongoose.Schema(
   {
@@ -28,7 +28,7 @@ const GameSchema = mongoose.Schema(
     date: {
       type: Date,
     },
-  /*   image: {
+    /*   image: {
       type: String,
       validate: {
         validator: (value) => {
@@ -49,16 +49,19 @@ const GameSchema = mongoose.Schema(
 
     location: {
       type: {
-        type: String,
-        enum: ['Point'],
-        required: false
+        type: String, // Don't do `{ location: { type: String } }`
+        enum: ["Point"], // 'location.type' must be 'Point'
+        /* required: true, */
       },
-      coordinates: {
+      latitude: {
         type: [Number],
-        required: false
-      }
+        /* required: true, */
+      },
+      longitude: {
+        type: [Number],
+        /* required: true, */
+      },
     },
-
   },
   {
     timestamps: true,

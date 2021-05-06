@@ -53,13 +53,13 @@ router.put(
   GameController.edit
 );
 
-/* 
+
     
 //unsubscribe
 router.delete(
-  "/join/:matchId",
+  "/join/:id",
   authMiddleware.isAuthenticated,
   Subscription.unsubscribe
-); */
+);
 
 module.exports = router;
