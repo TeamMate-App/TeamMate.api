@@ -6,15 +6,14 @@ const CommentSchema = mongoose.Schema({
     ref: 'User'
   },
   game: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: 'Game'
+    type: String,
   },
 
   author: {
     type: String,
   },
   body: {
-    type: String
+    type: String,
   },
 
 

@@ -1,5 +1,5 @@
 const Subscriptions = require("../models/Subscriptions.model");
-// const {confirmInscription} = require("../config/mailer.config") 
+ const {confirmInscription} = require("../config/mailer.config") 
 const User = require("../models/User.model");
 
 //check is subscribed
@@ -17,7 +17,7 @@ module.exports.isSubscribed = (req, res) => {
 module.exports.subscribe = (req, res, next) => {
   const game = req.params.GameId;
   const user = req.currentUser;
-
+  const email = req.body.email;
   Subscriptions.find({ game: game }).then((inscriptions) => {
     if (inscriptions && inscriptions.length == 3) return console.log("tue");
 
@@ -77,7 +77,7 @@ module.exports.subscribe = (req, res, next) => {
       Subscriptions.create({ user: user, game: game })
         .then((createdinscription) => {
           res.send("Te has apuntado correctamente al evento!");
-          // confirmInscription(user.email)
+           confirmInscription(email)
        
         })
         .catch((err) => next(err));

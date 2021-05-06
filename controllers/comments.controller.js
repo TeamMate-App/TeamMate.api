@@ -15,9 +15,8 @@ module.exports.get = (req, res, next) => {
     };
 
 module.exports.create = (req, res, next) => {
-  Comment.create(req.body).then((comment) => {
-
-    console.log("comment en BBDD", req.body)
+  console.log("comment en BBDD", req)
+  Comment.create(req.body).then((comment) => {  
        return res.status(201).json(comment);
    })
    .catch(next);
