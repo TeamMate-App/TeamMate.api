@@ -37,17 +37,15 @@ module.exports.contactUsEmail = (email, subject) => {
 
 
 
-module.exports.confirmInscription = (email, subject) => {
+module.exports.confirmInscription = (email, token) => {
 	transporter.sendMail({
 		from: `"Teammate" <${process.env.NM_USER}>`,
 		to: email,
 		subject: "Enrollment confirmation",
 		text: "These are the details of your reservation",
-		html: `
-				<h1>You have signed up for the game${game.name}</h1>
-                <p>${game.address} </p>
-                <p>${game.date}</p>
-                <p>${game.location}</p>
-			`
+		html: `<h1>You have signed up for the game</h1>
+                <p> </p>
+                <p></p>
+                <p>${token}</p>`
 	})
 };

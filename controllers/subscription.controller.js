@@ -1,4 +1,5 @@
 const Subscriptions = require("../models/Subscriptions.model");
+ const {confirmInscription} = require("../config/mailer.config") 
 const User = require("../models/User.model");
 
 //check is subscribed
@@ -16,14 +17,14 @@ module.exports.isSubscribed = (req, res) => {
 module.exports.subscribe = (req, res, next) => {
   const game = req.params.GameId;
   const user = req.currentUser;
-
+  const email = req.body.email;
   Subscriptions.find({ game: game }).then((inscriptions) => {
     if (inscriptions && inscriptions.length == 1) {
       const player1 = inscriptions[0].user;
       console.log("mayor que 1");
       if (player1 == user) {
-        res
-          .send("Error, ya estabas apuntado al evento")
+        res.send("Error, ya estabas apuntado al evento")
+        
           .catch((err) => next(err));
       }
     }
@@ -74,6 +75,8 @@ module.exports.subscribe = (req, res, next) => {
       Subscriptions.create({ user: user, game: game })
         .then((createdinscription) => {
           res.send("Te has apuntado correctamente al evento!");
+           confirmInscription(email)
+       
         })
         .catch((err) => next(err));
     } else {
@@ -85,16 +88,12 @@ module.exports.subscribe = (req, res, next) => {
 //Mostrar users apuntados al evento
 module.exports.playersSubscribed = (req, res, next) => {
   const game = req.params.GameId;
-  console.log("req.paramsss", req.params.GameId);
+
   /* const game = req.params.GameId; */
-  console.log("game", game);
 
   Subscriptions.find({ game: game })
     .populate("user")
     .then((players) => {
-      console.log("GAME", req.params.GameId);
-
-      console.log("PLAYERS", players);
       if (!players) {
         next(createError(404, "players not found"));
       } else {
