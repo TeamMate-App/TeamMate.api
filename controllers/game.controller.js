@@ -6,10 +6,6 @@ const User = require("../models/User.model");
 //create
 module.exports.create = (req, res, next) => {
   const user = req.currentUser;
-  /* req.body.user = req.currentUser */
-  
-/* 
-  console.log("CONSOLE", req.body.user) */
 
   Game.findOne({ game: req.body }).then(async (game) => {
     if (game) {
@@ -24,17 +20,13 @@ module.exports.create = (req, res, next) => {
           next(createError(404, "User not found"));
         }
       });
-      console.log("REQ.BODY",req.body)
-      console.log("Curernt User", user)
+      console.log("REQ.BODY", req.body);
+      console.log("Curernt User", user);
       req.body.user = user;
-      console.log("REQ.BODY con el user",req.body)
-
+      console.log("REQ.BODY con el user", req.body);
 
       const newGame = await Game.create(req.body);
       const game = newGame;
-
-      console.log("GAME", newGame);
-      console.log("User", user);
 
       Subscriptions.find({ game: game }).then((inscriptions) => {
         const isEmpty = inscriptions.length < 5;
@@ -42,9 +34,6 @@ module.exports.create = (req, res, next) => {
           Subscriptions.create({ user: user, game: game })
             .then((createdinscription) => {
               res.status(201).json(game);
-              console.log("Game Creado", game);
-              console.log("User Creado", user);
-
             })
             .catch((err) => next(err));
         }
