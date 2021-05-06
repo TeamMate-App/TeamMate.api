@@ -14,7 +14,7 @@ const GameSchema = mongoose.Schema(
     },
 
     comments: {
-      type: mongoose.Types.ObjectId,
+      type: [mongoose.Types.ObjectId],
       ref: "comment",
     },
 
