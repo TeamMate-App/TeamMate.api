@@ -21,7 +21,6 @@ module.exports.subscribe = (req, res, next) => {
   Subscriptions.find({ game: game }).then((inscriptions) => {
     if (inscriptions && inscriptions.length == 1) {
       const player1 = inscriptions[0].user;
-      console.log("mayor que 1");
       if (player1 == user) {
         res.send("Error, ya estabas apuntado al evento")
         
@@ -31,7 +30,6 @@ module.exports.subscribe = (req, res, next) => {
     if (inscriptions && inscriptions.length == 2) {
       const player1 = inscriptions[0].user;
       const player2 = inscriptions[1].user;
-      console.log("mayor que 1");
 
       if (player1 == user || player2 == user) {
         res
@@ -43,7 +41,6 @@ module.exports.subscribe = (req, res, next) => {
       const player1 = inscriptions[0].user;
       const player2 = inscriptions[1].user;
       const player3 = inscriptions[2].user;
-      console.log("mayor que 1");
 
       if (player1 == user || player2 == user || player3 == user) {
         res
@@ -56,7 +53,6 @@ module.exports.subscribe = (req, res, next) => {
       const player2 = inscriptions[1].user;
       const player3 = inscriptions[2].user;
       const player4 = inscriptions[3].user;
-      console.log("mayor que 3");
 
       if (
         player1 == user ||

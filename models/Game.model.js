@@ -33,21 +33,14 @@ const GameSchema = mongoose.Schema(
     date: {
       type: Date,
     },
-    /*   image: {
-        type: String,
-        validate: {
-          validator: (value) => {
-            try {
-              const url = new URL(value);
-  
-              return url.protocol === "http:" || url.protocol === "https:";
-            } catch (err) {
-              return false;
-            }
-          },
-          message: () => "Invalid image URL",
-        },
-      }, */
+    price: {
+      type: Number,
+    },
+    image: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/teammatereact258/image/upload/v1620345498/Teammate/pistas-padel-default_k3ihn7.jpg",
+    },
     address: {
       type: String,
     },
@@ -55,17 +48,15 @@ const GameSchema = mongoose.Schema(
     location: {
       type: {
         type: String, // Don't do `{ location: { type: String } }`
-        enum: ["Point"], // 'location.type' must be 'Point'
+        enum: ["Point"],
+        default: "Point", // 'location.type' must be 'Point'
         /* required: true, */
       },
-      latitude: {
+      coordinates: {
         type: [Number],
-        /* required: true, */
-      },
-      longitude: {
-        type: [Number],
-        /* required: true, */
-      },
+        required: true
+      }
+   
     },
   },
   {

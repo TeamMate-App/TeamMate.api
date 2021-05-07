@@ -15,7 +15,6 @@ module.exports.get = (req, res, next) => {
     };
 
 module.exports.create = (req, res, next) => {
-  console.log("comment en BBDD", req)
   Comment.create(req.body).then((comment) => {  
        return res.status(201).json(comment);
    })
@@ -23,7 +22,6 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.getGameComment = (req, res, next) => {
-    console.log("commentCntrolador" )
     Comment.find()
     .then((comments) => {
         if (!comments) {

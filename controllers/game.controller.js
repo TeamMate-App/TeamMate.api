@@ -6,8 +6,16 @@ const User = require("../models/User.model");
 //create
 module.exports.create = (req, res, next) => {
   const user = req.currentUser;
+  const gameBody = {
+    name: req.body.name,
+    address: req.body.address,
+    price: req.body.price,
+    date: req.body.date,
+    location: { coordinates: [req.body.latitude, req.body.longitude] },
+    user: req.body.user,
+  };
 
-  Game.findOne({ game: req.body }).then(async (game) => {
+  Game.findOne({ game: gameBody }).then(async (game) => {
     if (game) {
       next(
         createError(400, {
@@ -20,12 +28,13 @@ module.exports.create = (req, res, next) => {
           next(createError(404, "User not found"));
         }
       });
-      console.log("REQ.BODY", req.body);
-      console.log("Curernt User", user);
-      req.body.user = user;
-      console.log("REQ.BODY con el user", req.body);
+      gameBody.user = user;
+      if (req.file) {
+        gameBody.image = req.file.path;
+      }
 
-      const newGame = await Game.create(req.body);
+      console.log("REQ.BOOOOODY", gameBody);
+      const newGame = await Game.create(gameBody);
       const game = newGame;
 
       Subscriptions.find({ game: game }).then((inscriptions) => {
@@ -50,7 +59,6 @@ module.exports.getAllfromDB = (req, res, next) => {
         next(createError(404, "games not found"));
       } else {
         res.status(200).json(games);
-        console.log(games);
       }
     })
     .catch(next);
