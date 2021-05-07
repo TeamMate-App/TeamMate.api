@@ -44,9 +44,7 @@ module.exports.confirmInscription = (email) => {
 		subject: "Enrollment confirmation",
 		text: "These are the details of your reservation",
 		html: `<h1>You have signed up for the game</h1>
-                <p>You are subscribed to the following event</p>
-                <p></p>
-                <p></p>`
+                <p>You are subscribed to the following event</p>`
 	})
 };
 

@@ -23,7 +23,7 @@ module.exports.subscribe = (req, res, next) => {
       const player1 = inscriptions[0].user;
       console.log("mayor que 1");
       if (player1 == user) {
-        res.send("Error, ya estabas apuntado al evento")
+        res.send("Error, you were already signed up for the event")
         
           .catch((err) => next(err));
       }
@@ -35,7 +35,7 @@ module.exports.subscribe = (req, res, next) => {
 
       if (player1 == user || player2 == user) {
         res
-          .send("Error, ya estabas apuntado al evento")
+          .send("Error, you were already signed up for the event")
           .catch((err) => next(err));
       }
     }
@@ -47,7 +47,7 @@ module.exports.subscribe = (req, res, next) => {
 
       if (player1 == user || player2 == user || player3 == user) {
         res
-          .send("Error, ya estabas apuntado al evento")
+          .send("Error, you were already signed up for the event")
           .catch((err) => next(err));
       }
     }
@@ -65,7 +65,7 @@ module.exports.subscribe = (req, res, next) => {
         player4 == user
       ) {
         res
-          .send("Error, el evento tiene ya 4 jugadores.")
+          .send("Error, the event already has 4 players.")
           .catch((err) => next(err));
       }
     }
@@ -74,13 +74,13 @@ module.exports.subscribe = (req, res, next) => {
     if (isEmpty) {
       Subscriptions.create({ user: user, game: game })
         .then((createdinscription) => {
-          res.send("Te has apuntado correctamente al evento!");
+          res.send("You have successfully registered for the event!");
            confirmInscription(email)
        
         })
         .catch((err) => next(err));
     } else {
-      res.send("Error, el evento tiene ya 4 jugadores.");
+      res.send("Error, the event already has 4 players.");
     }
   });
 };
@@ -113,7 +113,7 @@ module.exports.unsubscribe = (req, res, next) => {
 console.log("Holaaaaaaa",req.body.email)
   Subscriptions.findOneAndDelete({ game, user })
     .then((result) => {
-      res.send("Te has desapuntado correctamente");
+      res.send("You have successfully signed out");
        confirmUnsubscribe(email)
     })
     .catch(next);
