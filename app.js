@@ -6,7 +6,8 @@ require("./config/db.config");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
-const cors = require("cors");
+const cors = require('./config/cors.config')
+// const cors = require("cors");
 const logger = require("morgan");
 const express = require("express");
 
@@ -16,7 +17,8 @@ const app = express();
 
 app.use(express.json());
 app.use(logger("dev"));
-app.use(cors());
+// app.use(cors())
+app.use(cors);
 
 /* Routes */
 
