@@ -37,7 +37,21 @@ module.exports.contactUsEmail = (email, subject) => {
 
 
 
-module.exports.confirmInscription = (email, token) => {
+module.exports.confirmInscription = (email) => {
+	transporter.sendMail({
+		from: `"Teammate" <${process.env.NM_USER}>`,
+		to: email,
+		subject: "Enrollment confirmation",
+		text: "These are the details of your reservation",
+		html: `<h1>You have signed up for the game</h1>
+                <p>You are subscribed to the following event</p>
+                <p></p>
+                <p></p>`
+	})
+};
+
+
+module.exports.confirmUnsubscribe = (email) => {
 	transporter.sendMail({
 		from: `"Teammate" <${process.env.NM_USER}>`,
 		to: email,
@@ -46,6 +60,6 @@ module.exports.confirmInscription = (email, token) => {
 		html: `<h1>You have signed up for the game</h1>
                 <p> </p>
                 <p></p>
-                <p>${token}</p>`
+`
 	})
 };

@@ -1,5 +1,5 @@
 const Subscriptions = require("../models/Subscriptions.model");
- const {confirmInscription} = require("../config/mailer.config") 
+ const {confirmInscription, confirmUnsubscribe} = require("../config/mailer.config") 
 const User = require("../models/User.model");
 
 //check is subscribed
@@ -108,10 +108,13 @@ module.exports.playersSubscribed = (req, res, next) => {
 module.exports.unsubscribe = (req, res, next) => {
   const game = req.params.id;
   const user = req.currentUser;
-
+  
+  
+console.log("Holaaaaaaa",req.body.email)
   Subscriptions.findOneAndDelete({ game, user })
     .then((result) => {
       res.send("Te has desapuntado correctamente");
+       confirmUnsubscribe(email)
     })
     .catch(next);
 };
