@@ -7,9 +7,11 @@ const passport = require("passport");
 module.exports.editProfile = (req, res, next) => {
   User.findOneAndUpdate({ _id: req.currentUser }, req.body, {
     new: true,
+    
   })
     .then((user) => {
       if (!user) {
+        console.log("user".user)
         next(createError(404, "User not found"));
       }  if (!req.file){
         return user.save(user).then((user) => res.json({ user }));
