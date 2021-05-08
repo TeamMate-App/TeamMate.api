@@ -24,7 +24,6 @@ module.exports.editProfile = (req, res, next) => {
     .catch((error) => next(error));
 };
 
-
 //register
 module.exports.register = (req, res, next) => {
   User.findOne({ email: req.body.email })
