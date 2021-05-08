@@ -50,6 +50,7 @@ mongoose.connection.once("open", () => {
           image: faker.image.sports(),
           user: usersCreated[0].id,
           date: new Date(),
+          price: faker.commerce.price(),
           
 
         });

@@ -1,5 +1,5 @@
 const Subscriptions = require("../models/Subscriptions.model");
- const {confirmInscription, confirmUnsubscribe} = require("../config/mailer.config") 
+ const {confirmInscription} = require("../config/mailer.config") 
 const User = require("../models/User.model");
 
 //check is subscribed
@@ -21,9 +21,8 @@ module.exports.subscribe = (req, res, next) => {
   Subscriptions.find({ game: game }).then((inscriptions) => {
     if (inscriptions && inscriptions.length == 1) {
       const player1 = inscriptions[0].user;
-      console.log("mayor que 1");
       if (player1 == user) {
-        res.send("Error, you were already signed up for the event")
+        res.send("Error, ya estabas apuntado al evento")
         
           .catch((err) => next(err));
       }
@@ -31,11 +30,10 @@ module.exports.subscribe = (req, res, next) => {
     if (inscriptions && inscriptions.length == 2) {
       const player1 = inscriptions[0].user;
       const player2 = inscriptions[1].user;
-      console.log("mayor que 1");
 
       if (player1 == user || player2 == user) {
         res
-          .send("Error, you were already signed up for the event")
+          .send("Error, ya estabas apuntado al evento")
           .catch((err) => next(err));
       }
     }
@@ -43,11 +41,10 @@ module.exports.subscribe = (req, res, next) => {
       const player1 = inscriptions[0].user;
       const player2 = inscriptions[1].user;
       const player3 = inscriptions[2].user;
-      console.log("mayor que 1");
 
       if (player1 == user || player2 == user || player3 == user) {
         res
-          .send("Error, you were already signed up for the event")
+          .send("Error, ya estabas apuntado al evento")
           .catch((err) => next(err));
       }
     }
@@ -56,7 +53,6 @@ module.exports.subscribe = (req, res, next) => {
       const player2 = inscriptions[1].user;
       const player3 = inscriptions[2].user;
       const player4 = inscriptions[3].user;
-      console.log("mayor que 3");
 
       if (
         player1 == user ||
@@ -65,7 +61,7 @@ module.exports.subscribe = (req, res, next) => {
         player4 == user
       ) {
         res
-          .send("Error, the event already has 4 players.")
+          .send("Error, el evento tiene ya 4 jugadores.")
           .catch((err) => next(err));
       }
     }
@@ -74,13 +70,13 @@ module.exports.subscribe = (req, res, next) => {
     if (isEmpty) {
       Subscriptions.create({ user: user, game: game })
         .then((createdinscription) => {
-          res.send("You have successfully registered for the event!");
+          res.send("Te has apuntado correctamente al evento!");
            confirmInscription(email)
        
         })
         .catch((err) => next(err));
     } else {
-      res.send("Error, the event already has 4 players.");
+      res.send("Error, el evento tiene ya 4 jugadores.");
     }
   });
 };
@@ -108,13 +104,10 @@ module.exports.playersSubscribed = (req, res, next) => {
 module.exports.unsubscribe = (req, res, next) => {
   const game = req.params.id;
   const user = req.currentUser;
-  
-  
-console.log("Holaaaaaaa",req.body.email)
+
   Subscriptions.findOneAndDelete({ game, user })
     .then((result) => {
-      res.send("You have successfully signed out");
-       confirmUnsubscribe(email)
+      res.send("Te has desapuntado correctamente");
     })
     .catch(next);
 };
