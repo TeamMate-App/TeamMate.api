@@ -11,14 +11,16 @@ module.exports.editProfile = (req, res, next) => {
     .then((user) => {
       if (!user) {
         next(createError(404, "User not found"));
+      }
+      if (!req.file) {
+        return user.save(user).then((user) => res.json({ user }));
       } else {
-        user.image = req.file.path
+        user.image = req.file.path;
         return user.save(user).then((user) => res.json({ user }));
       }
     })
     .catch((error) => next(error));
 };
-
 
 //register
 module.exports.register = (req, res, next) => {
