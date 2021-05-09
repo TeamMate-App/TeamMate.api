@@ -20,7 +20,7 @@ app.use(logger("dev"));
 // app.use(cors());
 app.use(cors);
 
-/* Routes */
+/* Routes  */
 
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");

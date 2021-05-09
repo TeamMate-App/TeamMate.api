@@ -37,7 +37,7 @@ const GameSchema = mongoose.Schema(
       type: Number,
     },
     image: {
-      type: String,
+      type:String,
       default:
         "https://res.cloudinary.com/teammatereact258/image/upload/v1620345498/Teammate/pistas-padel-default_k3ihn7.jpg",
     },
